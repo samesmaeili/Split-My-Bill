@@ -3,7 +3,7 @@ Bill calculator to determine how much an individual must pay for a shared group 
 
 Problem to be solved:
 A common use case for this calculator is a restaurant bill, where one person pays for the whole group.
-Generally, people at restaurant will order different items that will vary in price. 
+Generally, people at a restaurant will order different items that will vary in price. 
 On top of that, tip, tax and sometimes a mandate fee are added on top of the bill.
 These additional fees placed on top of the items ordered, make it difficult to calculate how much each individual owes.
 This calculator was created to solve this problem.
