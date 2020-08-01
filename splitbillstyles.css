@@ -1,0 +1,137 @@
+
+
+body {
+  margin: auto;
+  width: 100%;
+  margin-top: 50px;
+  text-align: center;
+}
+
+
+#divid{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+input[type=text] {
+  width: 14%;
+  padding: 12px 20px;
+  margin: 8px 5px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=number] {
+  width: 14%;
+  padding: 12px 20px;
+  margin: 8px 5px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: right;
+  display: inline-block;
+}
+
+input[class=otherNums], select {
+  width: 30%;
+  font-size: 20px;
+}
+
+.control-label {
+    width: 140px;
+    padding-top: 5px;
+    text-align: right;
+}
+
+button[type=button] {
+  width: 10%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type=button]:hover {
+  background-color: #45a049;
+}
+
+button[class=addButton]{
+    width: 14%;
+}
+
+button[class=removeButton]{
+    background-color: red;
+    width: 12%;
+}
+
+button[class=removeButton]:hover{
+  background-color: #cc1104
+}
+
+button[class=mainBillSubmit] {
+  background-color: #008ae6;
+  width: 25%;
+  font-size: 16px;
+}
+
+button[class=mainBillSubmit]:hover{
+  background-color: #00a0cc
+}
+
+button[class=tipSubmit] {
+  background-color: #008ae6;
+  width: 25%;
+  font-size: 16px;
+}
+
+button[class=tipSubmit]:hover{
+  background-color: #00a0cc;
+}
+
+
+@media(max-width: 960px) {
+    input[type="number"], input[type="text"], button[class=addButton], button[class=removeButton]{
+        width: 20%;
+    }
+
+    button[class=mainBillSubmit]{
+        width:60%;
+    }
+    button[class=tipSubmit]{
+        width:60%;
+    }
+    input[class=otherNums], select {
+        width: 45%;
+    }   
+
+}
+
+@media(max-width: 767px) {
+    input[type="number"], input[type="text"], button[class=addButton], button[class=removeButton]{
+        width: 30%;
+    }
+    button[class=tipSubmit]{
+        width:90%;
+    }
+    input[class=otherNums], select{
+      width: 45%;
+    }
+}
+
+@media(max-width: 500px){
+  .control-label {
+    width: 100%;
+    padding-top: 5px;
+    text-align: left;
+    margin-left: 6px;
+  }
+  input[class=otherNums], select{
+      width: auto;
+  }
+}

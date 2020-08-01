@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    
+	<title>Split Bill Calculator</title>
+
+  	<link rel="stylesheet" href="splitbillstyles.css">
+    <link rel="shortcut icon" type = "image/png" href = "img/favicon.png">
+    
+	</head>
+
+	<body>
+
+		<div id="mainBill">
+			<h1>What Do I Owe?</h1>
+			<h1 id="answer"></h1>
+			<input type="text" id ="nameItem" placeholder="Item Name"><input type="number" step="any" id ="cost" placeholder="Item Price"><button type="button" class="addButton" value="Add" onclick="javascript:add();"> Add Item</button>
+			<div id="items">
+			</div>
+
+			<br>
+			<label class="control-label">Tip%</label>
+			<input type="number" step="any" id ="tip" placeholder="0" class="otherNums">
+			<br>
+			<br>
+			<label class="control-label">Tax%</label>
+			<input type="number" step="any" id ="tax" placeholder="0" class="otherNums">
+			<br>
+			<br>
+			<label class="control-label">Mandate%</label>
+			<input type="number" step="any" id ="fees" placeholder="0" class="otherNums">
+			<br>
+			<br>
+			<button type="button" class="mainBillSubmit" onclick="calculate()">Calculate</button>
+		</div>
+
+
+		<br>
+		<br>
+		<h2 id = "answerTip">Calculate Tip%: </h2>
+
+		<label class="control-label">Bill Total</label>
+		<input type="number" step="any" id ="totalAmount" class="otherNums" placeholder="0.00"> 
+		<br>
+		<br>
+		<label class="control-label">Tip Amount</label>
+		<input type="number" step="any" id ="tipAmount" class="otherNums" placeholder="0">
+		<br>
+		<br>
+		<button type="button" class="tipSubmit" onclick="calculateTipPercentage()">Calculate Percentage</button>
+
+		<br>
+		<br>
+		<h2 id="answerTax">Calculate Tax or Mandate%: </h2>
+
+		<label class="control-label">Bill Subtotal(Excludes Tax, Mandate and Tip) </label>
+		<input type="number" step="any" id ="subtotal" class="otherNums" placeholder="0.00"> 
+		<br>
+		<br>
+		<label class="control-label">Tax or Mandate Amount</label>
+		<input type="number" step="any" id ="taxAmount" class="otherNums" placeholder="0">
+		<br>
+		<br>
+		<button type="button" class="tipSubmit" onclick="calculateTaxPercentage()">Calculate Percentage</button>
+
+		<script>
+			var items_id = 0;
+
+			function removeElement(ev) {
+			    var button = ev.target;
+			    var itemName = button.previousSibling.previousSibling
+			    var linebreak = button.previousSibling.previousSibling.previousSibling
+			    var field = button.previousSibling;
+			    var div = button.parentElement;
+			    div.removeChild(button);
+			    div.removeChild(field);
+			   	div.removeChild(itemName);
+			   	div.removeChild(linebreak);
+			    div.removeChild()
+			 }
+
+			 function add() {
+			    items_id++; // increment items_id to get unique id for every new element
+
+			    //create textbox
+			    var itemName = document.createElement('input')
+			    itemName.setAttribute('placeholder', "Item Name");
+			    itemName.setAttribute('type', "text")
+
+			    var input = document.createElement('input');
+			    input.type = "number";
+			    input.setAttribute("class", "w3-input w3-border");
+			    input.setAttribute('id', 'items' + items_id);
+			    input.setAttribute('placeholder', "Item Price");
+			    input.setAttribute('step', "any")
+
+			    var items = document.getElementById("items");
+
+                //create line break
+				linebreak = document.createElement("br");
+				linebreak.setAttribute('id', 'items' + items_id);
+			    linebreak.setAttribute('value', 'items_id');
+				items.appendChild(linebreak);
+
+			    //create the remove button
+			    var remove = document.createElement('button');
+			    remove.setAttribute('id', 'items' + items_id);
+			    remove.setAttribute("class", "removeButton")
+			    remove.onclick = function(e) {
+			      removeElement(e)
+			    };
+			    remove.setAttribute("type", "button");
+			    remove.innerHTML = "Remove Item";
+
+			    //append the elements
+			    items.appendChild(itemName);
+			    items.appendChild(input);
+			    items.appendChild(remove);
+			 }
+
+
+			function calculate(){
+
+				var cost = parseFloat(document.getElementById("cost").value);
+				var tip = parseFloat(document.getElementById("tip").value);
+				var tax = parseFloat(document.getElementById("tax").value);
+				var fees = parseFloat(document.getElementById("fees").value);
+
+				var divElem = document.getElementById("items");
+				var inputElements = divElem.querySelectorAll("input, number, value");
+				var additionalItems = 0
+				var i;
+				var invalid = 0
+				for (i = 0; i < inputElements.length; i++) {
+					if(inputElements[i].value != ""){
+						additionalItems+= parseFloat(inputElements[i].value);
+					}else{
+						invalid++
+					}
+				}
+	
+				var result = 0
+
+				if(isNaN(cost) && (invalid === inputElements.length)){
+					document.getElementById("answer").innerHTML = "Error: Enter a Valid Item Price";
+				}else{
+
+					if(isNaN(tip)){
+						tip = 0
+					}
+					if(isNaN(tax)){
+						tax = 0
+					}
+					if(isNaN(fees)){
+						fees = 0
+					}
+
+					if(isNaN(cost)){
+						cost = 0
+					}
+					if(invalid === inputElements.length){
+						additionalItems = 0
+					}
+					cost = cost + parseFloat(additionalItems)
+
+					result = cost
+
+					/* taxes and fees based on subtotal */
+					fees = (fees/100) * cost
+					result = result + fees
+					
+					tax = (tax/100) * cost
+					result = result + tax
+
+					tip = tip/100
+					tip = tip*result
+
+					result = result + tip
+					document.getElementById("answer").innerHTML = "You owe: $" + result.toFixed(2);
+				}
+			}
+
+			function calculateTaxPercentage(){
+
+				var cost = parseFloat(document.getElementById("subtotal").value);
+				var tax = parseFloat(document.getElementById("taxAmount").value);
+
+				if(isNaN(cost)){
+					document.getElementById("answerTax").innerHTML = "Calculate Tax or Extra Fee%: ERROR: Enter Subtotal of Bill";
+				}else{
+					if(isNaN(tax)){
+						document.getElementById("answerTax").innerHTML = "Calculate Tax or Extra Fee%: ERROR: Enter Tax Amount";
+					}else{
+						if(cost ===0){
+							document.getElementById("answerTax").innerHTML = "Calculate Tax or Extra Fee%: Invalid Subtotal";
+						}else{
+							var taxPercent = (tax/cost)*100
+							document.getElementById("answerTax").innerHTML = "Calculate Tax or Extra Fee%: " + taxPercent.toFixed(2) + "%";
+						}
+					}
+				}
+			}
+
+			function calculateTipPercentage(){
+
+				var cost = parseFloat(document.getElementById("totalAmount").value);
+				var tip = parseFloat(document.getElementById("tipAmount").value);
+
+				var result = 0
+				if(isNaN(cost)){
+					document.getElementById("answerTip").innerHTML = "Calculate Tip%: ERROR: Enter Total for Bill";
+				}else{
+					if(isNaN(tip)){
+						document.getElementById("answerTip").innerHTML = "Calculate Tip%: ERROR: Enter Tip Amount";
+					}else{
+
+						result = cost
+						subtotal = result - tip
+						if(subtotal === 0){
+							document.getElementById("answerTip").innerHTML = "Calculate Tip%: 100%";
+						}else{
+							tipPercent = (tip/subtotal)*100
+							document.getElementById("answerTip").innerHTML = "Calculate Tip%: " + tipPercent.toFixed(2) + "%";
+						}
+					}
+				}
+			}
+		</script>
+
+
+	</body>
+</html>
