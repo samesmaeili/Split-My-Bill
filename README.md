@@ -1,4 +1,5 @@
 # Bill-Calculator
+Link: https://samesmaeili.com/splitmybill
 Bill calculator to determine how much an individual must pay for a shared group expense
 
 Problem to be solved:
